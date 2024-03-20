@@ -1,8 +1,13 @@
 package HJSS;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public class Learner {
+
+    public static final String ANSI_GREEN = "\u001B[32m";
+    // public static final String ANSI_BLUE = "\034[0m";
+    public static final String ANSI_RESET = "\033[0m";
 
     public enum Gender {
         MALE,
@@ -24,6 +29,10 @@ public class Learner {
     private String emergencyContactNo;
     private Gender gender;
     private Grade grade;
+
+    private int loggedId;
+    private String loggedName;
+    private Grade loggedGrade;
 
     public Learner(int id, String name, int age, String emergencyContactNo, Gender gender, Grade grade) {
         this.id = id;
@@ -60,6 +69,17 @@ public class Learner {
         }
     }
 
+    public void insertGrade(Scanner inputString) {
+        System.out.print("Enter grade from list provided [ GRADE_1 ... GRADE_5 ] : ");
+        String grade = inputString.nextLine();
+        try {
+            this.grade = Grade.valueOf(grade.toUpperCase());
+        } catch (Exception e) {
+            System.out.println("Invalid grade input");
+            insertGrade(inputString);
+        }
+    }
+
     public void CreateNewLearner(int len) {
         Scanner inputInt = new Scanner(System.in);
         Scanner inputString = new Scanner(System.in);
@@ -72,13 +92,10 @@ public class Learner {
         System.out.print("Enter emergency contact number : ");
         this.emergencyContactNo = inputString.nextLine();
         insertGender(inputString);
-        System.out.print("Enter grade from list provided [ GRADE_1 ... GRADE_5 ] : ");
-        String gd = inputString.nextLine();
-        this.grade = Grade.valueOf(gd);
-        System.out.print("Record successfully added  \n");
+        insertGrade(inputString);
+        System.out.print(ANSI_GREEN + "Record successfully added  \n + " + ANSI_RESET);
     }
 
-    // @Override
     public String toString() {
         return id + "     "
                 + name + "      "
@@ -86,6 +103,84 @@ public class Learner {
                 + emergencyContactNo + "     "
                 + gender + "     "
                 + grade;
+    }
+
+    public static void operationalMenu(Collection<Learner> learners) {
+
+        System.out.println(ANSI_GREEN +
+                "=========== LIST OF LEARNERS =========="
+                + ANSI_RESET);
+
+        System.out.println("=======================================================================================");
+        for (Learner i : learners) {
+            System.out.println(i);
+        }
+        System.out
+                .println("======================================================================================= \n");
+
+        System.out.print("Select learners id you want to login as or press 0 to exit:");
+    }
+
+    public static void LoggedIn(int loggedId, String loggedName, Grade loggedGrade) {
+        System.out.println(ANSI_GREEN +
+                "\nYou are  currently logged in as " + loggedName + "!"
+                + ANSI_RESET);
+
+        System.out.println(
+                "\n[1]: Book a swimming lesson \n[2]: Cancel or change a booking \n[3]: Attend a booking \n[4]: Print learners report \n[5]: Logout");
+
+        int input;
+
+        Scanner x = new Scanner(System.in);
+        input = x.nextInt();
+
+        switch (input) {
+            case 1:
+                bookSwimmingLesson(loggedId, loggedName, loggedGrade);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public static void bookSwimmingLesson(int loggedId, String loggedName, Grade loggedGrade) {
+
+        System.out.println(
+                "\n----TIME TABLE----\n[1]: View time table by day \n[2]: View time table by grade level \n[3]: View time table  by coach name \n[4]: Go back");
+    }
+
+    public static void storeLoggedDetails(Learner instance, int loggedId, String loggedName, Grade loggedGrade) {
+        instance.loggedId = loggedId;
+        instance.loggedName = loggedName;
+        instance.loggedGrade = loggedGrade;
+
+        LoggedIn(loggedId, loggedName, loggedGrade);
+    }
+
+    public static void authenticateLearner(Collection<Learner> learners, int id) {
+        try {
+            for (Learner learner : learners) {
+                if (learner.id == id) {
+                    storeLoggedDetails(learner, learner.id, learner.name, learner.grade);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public static void learnerMenu(Collection<Learner> learners) {
+        int input;
+        operationalMenu(learners);
+        Scanner sc = new Scanner(System.in);
+        input = sc.nextInt();
+
+        if (input == 0) {
+            System.exit(0);
+        } else {
+            authenticateLearner(learners, input);
+        }
     }
 
 }

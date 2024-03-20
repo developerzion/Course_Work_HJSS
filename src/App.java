@@ -7,14 +7,7 @@ import java.util.Scanner;
 public class App {
 
     static Collection<Learner> learners = new ArrayList<Learner>();
-
-    public static void printLearnersList() {
-        System.out.println("=======================================================================================");
-        for (Learner i : learners) {
-            System.out.println(i);
-        }
-        System.out.println("=======================================================================================");
-    }
+    static Collection<Coach> coaches = new ArrayList<Coach>();
 
     public static void displayMenu() {
         System.out.println(
@@ -22,13 +15,17 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        int input;
 
         learners.add(new Learner(1, "John Doe", 6, "07011223344", Learner.Gender.MALE, Learner.Grade.GRADE_3));
         learners.add(new Learner(2, "Jane Smith", 8, "090088776655", Learner.Gender.FEMALE, Learner.Grade.GRADE_2));
 
-        displayMenu();
+        coaches.add(new Coach(1, "Dewan", Learner.Gender.MALE));
+        coaches.add(new Coach(2, "Tina", Learner.Gender.FEMALE));
+        coaches.add(new Coach(3, "Steve", Learner.Gender.MALE));
+        coaches.add(new Coach(4, "Viktoria", Learner.Gender.FEMALE));
 
+        int input;
+        displayMenu();
         do {
 
             Scanner x = new Scanner(System.in);
@@ -36,21 +33,21 @@ public class App {
 
             switch (input) {
                 case 1:
-                    System.out.println("\n You are currently logged in   ass a learner \n");
+                    Learner.learnerMenu(learners);
                     break;
                 case 2:
                     learners.add(new Learner(learners.size()));
                     displayMenu();
                     break;
                 case 3:
-                    System.out.println("\n You are currently logged in as a coach \n");
+                    Coach.coachMenu(coaches);
                     break;
                 case 4:
                     System.exit(0);
                     break;
-                case 5:
-                    printLearnersList();
-                    break;
+                // case 5:
+                // printLearnersList();
+                // break;
                 default:
                     break;
             }
