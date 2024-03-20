@@ -138,6 +138,9 @@ public class Learner {
             case 1:
                 bookSwimmingLesson(loggedId, loggedName, loggedGrade);
                 break;
+                case 5:
+                
+                break;
             default:
                 break;
         }
@@ -166,6 +169,7 @@ public class Learner {
                 }
             }
         } catch (Exception e) {
+            
         }
 
     }
