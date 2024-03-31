@@ -41,4 +41,8 @@ public class Coach {
         } while (input != 0);
     }
 
+    public static void main(String[] args) {
+        new Coach(1, "Dewan");
+    }
+
 }

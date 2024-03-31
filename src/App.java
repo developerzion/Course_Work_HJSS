@@ -32,6 +32,7 @@ public class App {
 
         // Pre-add lessons
         lessons.add(new Lesson("Monday", "4-5pm", 1, "Dewan"));
+        lessons.add(new Lesson("Tuesday", "4-5pm", 1, "Tina"));
 
         int input;
         System.out.println(ANSI_GREEN + "\nWELCOME TO HATFIELD JUNIOR SWIMMING SCHOOL" + ANSI_RESET);

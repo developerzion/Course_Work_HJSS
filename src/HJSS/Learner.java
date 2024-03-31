@@ -10,6 +10,7 @@ public class Learner {
     public static final String ANSI_RESET = "\033[0m";
 
     static Collection<Lesson> lessons = new ArrayList<Lesson>();
+    static Collection<Coach> coaches = new ArrayList<Coach>();
 
     public enum Gender {
         MALE,
@@ -151,6 +152,13 @@ public class Learner {
     }
 
     public static void bookSwimmingLesson(Learner learner) {
+
+        // for (Lesson l : lessons) {
+        // System.out.println(l+ "Hello");
+        // }
+
+        System.out.println(lessons.size());
+
         String day;
         String time;
 
@@ -162,6 +170,7 @@ public class Learner {
 
         // learner.grade == lesson.getGradeLevel() ||
         for (Lesson lesson : lessons) {
+            System.out.println(lesson);
             if (lesson.getDay().equalsIgnoreCase(day) && lesson.getTime().equalsIgnoreCase(time)) {
                 // if ((learner.grade == lesson.getGradeLevel() - 1) &&
                 lesson.addLearner(learner);
@@ -191,8 +200,6 @@ public class Learner {
             for (Learner learner : learners) {
                 if (learner.id == id) {
                     storeLoggedDetails(learner);
-                } else {
-                    learnerMenu(learners);
                 }
             }
         } catch (Exception e) {
