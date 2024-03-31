@@ -6,19 +6,11 @@ import java.util.Scanner;
 public class Coach {
     private int id;
     private String name;
-    public Learner.Gender Gender;
 
     // coach class constructor
-    public Coach(int id, String name, Learner.Gender gender) {
+    public Coach(int id, String name) {
         this.id = id;
         this.name = name;
-        this.Gender = gender;
-    }
-
-    public String toString() {
-        return id + "               "
-                + name + "               "
-                + Gender + "               ";
     }
 
     public static void printCoachList(Collection<Coach> coaches) {

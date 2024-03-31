@@ -1,13 +1,15 @@
 package HJSS;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
 public class Learner {
 
     public static final String ANSI_GREEN = "\u001B[32m";
-    // public static final String ANSI_BLUE = "\034[0m";
     public static final String ANSI_RESET = "\033[0m";
+
+    static Collection<Lesson> lessons = new ArrayList<Lesson>();
 
     public enum Gender {
         MALE,
@@ -30,9 +32,18 @@ public class Learner {
     private Gender gender;
     private Grade grade;
 
-    private int loggedId;
-    private String loggedName;
-    private Grade loggedGrade;
+    // Learners logged in params
+    // private int loggedId;
+    // private String loggedName;
+    // private int loggedAge;
+    // private String loggedEmergencyContactNo;
+    // private Gender loggedGender;
+    // private Grade loggedGrade;
+
+    // Non-static method
+    // public int getLoggedGender() {
+    // return this.loggedId;
+    // }
 
     public Learner(int id, String name, int age, String emergencyContactNo, Gender gender, Grade grade) {
         this.id = id;
@@ -44,7 +55,7 @@ public class Learner {
     }
 
     public Learner(int len) {
-        this.CreateNewLearner(len);
+        this.createNewLearner(len);
     }
 
     public void insertGender(Scanner inputString) {
@@ -60,27 +71,27 @@ public class Learner {
 
     public void insertAge(Scanner inputInt) {
         System.out.print("Enter your age : ");
-        int age = inputInt.nextInt();
-        if (age < 4 || age > 11) {
+        int newAge = inputInt.nextInt();
+        if (newAge < 4 || newAge > 11) {
             System.out.println("Learners age must be between 4 and 11");
             insertAge(inputInt);
         } else {
-            this.age = age;
+            this.age = newAge;
         }
     }
 
     public void insertGrade(Scanner inputString) {
         System.out.print("Enter grade from list provided [ GRADE_1 ... GRADE_5 ] : ");
-        String grade = inputString.nextLine();
+        String newGrade = inputString.nextLine();
         try {
-            this.grade = Grade.valueOf(grade.toUpperCase());
+            this.grade = Grade.valueOf(newGrade.toUpperCase());
         } catch (Exception e) {
             System.out.println("Invalid grade input");
             insertGrade(inputString);
         }
     }
 
-    public void CreateNewLearner(int len) {
+    public void createNewLearner(int len) {
         Scanner inputInt = new Scanner(System.in);
         Scanner inputString = new Scanner(System.in);
 
@@ -93,11 +104,11 @@ public class Learner {
         this.emergencyContactNo = inputString.nextLine();
         insertGender(inputString);
         insertGrade(inputString);
-        System.out.print(ANSI_GREEN + "Record successfully added  \n + " + ANSI_RESET);
+        System.out.print(ANSI_GREEN + "Record successfully added  \n" + ANSI_RESET);
     }
 
     public String toString() {
-        return id + "     "
+        return id + "   "
                 + name + "      "
                 + age + "       "
                 + emergencyContactNo + "     "
@@ -106,37 +117,32 @@ public class Learner {
     }
 
     public static void operationalMenu(Collection<Learner> learners) {
-
-        System.out.println(ANSI_GREEN +
-                "=========== LIST OF LEARNERS =========="
-                + ANSI_RESET);
-
+        System.out.println(ANSI_GREEN + "\n=========== LIST OF LEARNERS ==========" + ANSI_RESET);
         System.out.println("=======================================================================================");
-        for (Learner i : learners) {
-            System.out.println(i);
+        System.out.printf("%-6s%-25s%-7s%-25s%-9s%s%n", "ID", "NAME", "AGE", "CONTACT ADDRESS", "GENDER", "GRADE");
+        System.out.println("=======================================================================================");
+        for (Learner learner : learners) {
+            System.out.printf("%-6s%-25s%-7s%-25s%-9s%s%n", learner.id, learner.name, learner.age,
+                    learner.emergencyContactNo, learner.gender, learner.grade);
         }
         System.out
                 .println("======================================================================================= \n");
-
-        System.out.print("Select learners id you want to login as or press 0 to exit:");
+        System.out.print(ANSI_GREEN + "Select learners id you want to login as or press 0 to exit: " + ANSI_RESET);
     }
 
-    public static void LoggedIn(int loggedId, String loggedName, Grade loggedGrade) {
-        System.out.println(ANSI_GREEN +
-                "\nYou are  currently logged in as " + loggedName + "!"
-                + ANSI_RESET);
-
+    // int loggedId, String loggedName, Grade loggedGrade
+    public static void loggedIn(Learner learner) {
+        System.out.println(ANSI_GREEN + "\nYou are  currently logged in as: " + learner.name + "!" + ANSI_RESET);
         System.out.println(
-                "\n[1]: Book a swimming lesson \n[2]: Cancel or change a booking \n[3]: Attend a booking \n[4]: Print learners report \n[5]: Logout");
-
+                "\n[1]: Book a swimming lesson \n[2]: Change/Cancel a booking \n[3]: Attend a swimming lesson \n[4]: Print learners report \n[5]: Exit");
+        System.out.print(ANSI_GREEN + "\nEnter your choice: " + ANSI_RESET);
         int input;
-
         Scanner x = new Scanner(System.in);
         input = x.nextInt();
 
         switch (input) {
             case 1:
-                bookSwimmingLesson(loggedId, loggedName, loggedGrade);
+                bookSwimmingLesson(learner);
                 break;
             default:
                 break;
@@ -144,37 +150,61 @@ public class Learner {
 
     }
 
-    public static void bookSwimmingLesson(int loggedId, String loggedName, Grade loggedGrade) {
+    public static void bookSwimmingLesson(Learner learner) {
+        String day;
+        String time;
 
-        System.out.println(
-                "\n----TIME TABLE----\n[1]: View time table by day \n[2]: View time table by grade level \n[3]: View time table  by coach name \n[4]: Go back");
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter preferred day: ");
+        day = scan.nextLine();
+        System.out.print("Enter preferred time: ");
+        time = scan.nextLine();
+
+        // learner.grade == lesson.getGradeLevel() ||
+        for (Lesson lesson : lessons) {
+            if (lesson.getDay().equalsIgnoreCase(day) && lesson.getTime().equalsIgnoreCase(time)) {
+                // if ((learner.grade == lesson.getGradeLevel() - 1) &&
+                lesson.addLearner(learner);
+                System.out.println("Booking successful for " + learner.name + " on " + day + " at " + time);
+                // } else {
+                // System.out.println("Booking unsuccessful");
+                // }
+                return;
+            }
+        }
+        System.out.println("Lesson not found for " + day + " at " + time);
     }
 
-    public static void storeLoggedDetails(Learner instance, int loggedId, String loggedName, Grade loggedGrade) {
-        instance.loggedId = loggedId;
-        instance.loggedName = loggedName;
-        instance.loggedGrade = loggedGrade;
+    public static void storeLoggedDetails(Learner learner) {
+        // learner.loggedId = learner.id;
+        // learner.loggedName = learner.name;
+        // learner.loggedAge = learner.age;
+        // learner.loggedGrade = learner.grade;
+        // learner.loggedGender = learner.gender;
+        // learner.loggedEmergencyContactNo = learner.emergencyContactNo;
 
-        LoggedIn(loggedId, loggedName, loggedGrade);
+        loggedIn(learner);
     }
 
     public static void authenticateLearner(Collection<Learner> learners, int id) {
         try {
             for (Learner learner : learners) {
                 if (learner.id == id) {
-                    storeLoggedDetails(learner, learner.id, learner.name, learner.grade);
+                    storeLoggedDetails(learner);
+                } else {
+                    learnerMenu(learners);
                 }
             }
         } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
-
     }
 
     public static void learnerMenu(Collection<Learner> learners) {
         int input;
         operationalMenu(learners);
-        Scanner sc = new Scanner(System.in);
-        input = sc.nextInt();
+        Scanner scan = new Scanner(System.in);
+        input = scan.nextInt();
 
         if (input == 0) {
             System.exit(0);
