@@ -9,7 +9,6 @@ public class Learner {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\033[0m";
 
-    static Collection<Lesson> lessons = new ArrayList<Lesson>();
     static Collection<Coach> coaches = new ArrayList<Coach>();
 
     public enum Gender {
@@ -33,19 +32,6 @@ public class Learner {
     private Gender gender;
     private Grade grade;
 
-    // Learners logged in params
-    // private int loggedId;
-    // private String loggedName;
-    // private int loggedAge;
-    // private String loggedEmergencyContactNo;
-    // private Gender loggedGender;
-    // private Grade loggedGrade;
-
-    // Non-static method
-    // public int getLoggedGender() {
-    // return this.loggedId;
-    // }
-
     public Learner(int id, String name, int age, String emergencyContactNo, Gender gender, Grade grade) {
         this.id = id;
         this.name = name;
@@ -57,6 +43,23 @@ public class Learner {
 
     public Learner(int len) {
         this.createNewLearner(len);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Grade geGrade() {
+        return this.grade;
+    }
+
+    public String toString() {
+        return id + "   "
+                + name + "      "
+                + age + "       "
+                + emergencyContactNo + "     "
+                + gender + "     "
+                + grade;
     }
 
     public void insertGender(Scanner inputString) {
@@ -108,15 +111,6 @@ public class Learner {
         System.out.print(ANSI_GREEN + "Record successfully added  \n" + ANSI_RESET);
     }
 
-    public String toString() {
-        return id + "   "
-                + name + "      "
-                + age + "       "
-                + emergencyContactNo + "     "
-                + gender + "     "
-                + grade;
-    }
-
     public static void operationalMenu(Collection<Learner> learners) {
         System.out.println(ANSI_GREEN + "\n=========== LIST OF LEARNERS ==========" + ANSI_RESET);
         System.out.println("=======================================================================================");
@@ -143,7 +137,7 @@ public class Learner {
 
         switch (input) {
             case 1:
-                bookSwimmingLesson(learner);
+                swimmingLesson(learner);
                 break;
             default:
                 break;
@@ -151,13 +145,8 @@ public class Learner {
 
     }
 
-    public static void bookSwimmingLesson(Learner learner) {
-
-        // for (Lesson l : lessons) {
-        // System.out.println(l+ "Hello");
-        // }
-
-        System.out.println(lessons.size());
+    public static void swimmingLesson(Learner learner) {
+        Lesson lesson = new Lesson();
 
         String day;
         String time;
@@ -168,38 +157,14 @@ public class Learner {
         System.out.print("Enter preferred time: ");
         time = scan.nextLine();
 
-        // learner.grade == lesson.getGradeLevel() ||
-        for (Lesson lesson : lessons) {
-            System.out.println(lesson);
-            if (lesson.getDay().equalsIgnoreCase(day) && lesson.getTime().equalsIgnoreCase(time)) {
-                // if ((learner.grade == lesson.getGradeLevel() - 1) &&
-                lesson.addLearner(learner);
-                System.out.println("Booking successful for " + learner.name + " on " + day + " at " + time);
-                // } else {
-                // System.out.println("Booking unsuccessful");
-                // }
-                return;
-            }
-        }
-        System.out.println("Lesson not found for " + day + " at " + time);
-    }
-
-    public static void storeLoggedDetails(Learner learner) {
-        // learner.loggedId = learner.id;
-        // learner.loggedName = learner.name;
-        // learner.loggedAge = learner.age;
-        // learner.loggedGrade = learner.grade;
-        // learner.loggedGender = learner.gender;
-        // learner.loggedEmergencyContactNo = learner.emergencyContactNo;
-
-        loggedIn(learner);
+        lesson.bookSwimmingLesson(learner, day, time);
     }
 
     public static void authenticateLearner(Collection<Learner> learners, int id) {
         try {
             for (Learner learner : learners) {
                 if (learner.id == id) {
-                    storeLoggedDetails(learner);
+                    loggedIn(learner);
                 }
             }
         } catch (Exception e) {

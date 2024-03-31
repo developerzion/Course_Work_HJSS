@@ -21,8 +21,8 @@ public class App {
     public static void main(String[] args) {
 
         // Pre-add learners
-        learners.add(new Learner(1, "John Doe", 6, "07011223344", Learner.Gender.MALE, Learner.Grade.GRADE_3));
-        learners.add(new Learner(2, "Jane Smith", 8, "090088776655", Learner.Gender.FEMALE, Learner.Grade.GRADE_2));
+        learners.add(new Learner(1, "John Doe", 6, "07011223344", Learner.Gender.MALE, Learner.Grade.GRADE_1));
+        learners.add(new Learner(2, "Jane Smith", 8, "090088776655", Learner.Gender.FEMALE, Learner.Grade.GRADE_1));
 
         // Pre-add coaches
         coaches.add(new Coach(1, "Dewan"));
