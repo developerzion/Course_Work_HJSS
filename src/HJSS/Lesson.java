@@ -11,6 +11,7 @@ public class Lesson {
     private String day;
     private String time;
     private int gradeLevel;
+    private int maxCapacity;
     private String coach;
     private Collection<Learner> learners;
 
@@ -24,6 +25,7 @@ public class Lesson {
         this.time = time;
         this.gradeLevel = gradeLevel;
         this.coach = coach;
+        this.maxCapacity = 3;
         this.learners = new ArrayList<>();
     }
 
@@ -43,8 +45,13 @@ public class Lesson {
         return learners;
     }
 
-    public void addLearner(Learner learner) {
-        learners.add(learner);
+    public boolean addLearner(Learner learner) {
+        if (learners.size() < maxCapacity) {
+            learners.add(learner);
+            this.maxCapacity = maxCapacity - 1;
+            return true;
+        }
+        return false;
     }
 
     public int gradeNumber(Learner.Grade grade) {
@@ -63,8 +70,7 @@ public class Lesson {
         for (Lesson lesson : lessons) {
             if (lesson.getDay().equalsIgnoreCase(day) && lesson.getTime().equalsIgnoreCase(time)) {
                 if ((gradeNumber(learner.geGrade()) == lesson.getGradeLevel() ||
-                        gradeNumber(learner.geGrade()) == lesson.getGradeLevel() - 1)) {
-                    lesson.addLearner(learner);
+                        gradeNumber(learner.geGrade()) == lesson.getGradeLevel() - 1) && lesson.addLearner(learner)) {
                     System.out.println("Booking successful for " + learner.getName() +
                             " on " + day + " at " + time);
                 } else {

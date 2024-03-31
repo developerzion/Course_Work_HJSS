@@ -42,7 +42,7 @@ public class App {
         do {
 
             Scanner x = new Scanner(System.in);
-            System.out.print(ANSI_GREEN + "Enter your choice: " + ANSI_RESET);
+            System.out.print(ANSI_GREEN + "\nEnter your choice: " + ANSI_RESET);
             input = x.nextInt();
 
             switch (input) {
@@ -58,6 +58,9 @@ public class App {
                     break;
                 case 4:
                     System.exit(0);
+                    break;
+                case 5:
+                    Learner.printLearnersRecord(learners);
                     break;
                 default:
                     break;

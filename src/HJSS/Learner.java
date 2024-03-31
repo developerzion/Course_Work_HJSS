@@ -111,7 +111,7 @@ public class Learner {
         System.out.print(ANSI_GREEN + "Record successfully added  \n" + ANSI_RESET);
     }
 
-    public static void operationalMenu(Collection<Learner> learners) {
+    public static void printLearnersRecord(Collection<Learner> learners) {
         System.out.println(ANSI_GREEN + "\n=========== LIST OF LEARNERS ==========" + ANSI_RESET);
         System.out.println("=======================================================================================");
         System.out.printf("%-6s%-25s%-7s%-25s%-9s%s%n", "ID", "NAME", "AGE", "CONTACT ADDRESS", "GENDER", "GRADE");
@@ -120,9 +120,7 @@ public class Learner {
             System.out.printf("%-6s%-25s%-7s%-25s%-9s%s%n", learner.id, learner.name, learner.age,
                     learner.emergencyContactNo, learner.gender, learner.grade);
         }
-        System.out
-                .println("======================================================================================= \n");
-        System.out.print(ANSI_GREEN + "Select learners id you want to login as or press 0 to exit: " + ANSI_RESET);
+
     }
 
     // int loggedId, String loggedName, Grade loggedGrade
@@ -174,7 +172,10 @@ public class Learner {
 
     public static void learnerMenu(Collection<Learner> learners) {
         int input;
-        operationalMenu(learners);
+        printLearnersRecord(learners);
+        System.out
+                .println("======================================================================================= \n");
+        System.out.print(ANSI_GREEN + "Select learners id you want to login as or press 0 to exit: " + ANSI_RESET);
         Scanner scan = new Scanner(System.in);
         input = scan.nextInt();
 
