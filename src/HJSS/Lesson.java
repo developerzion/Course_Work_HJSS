@@ -17,7 +17,11 @@ public class Lesson {
 
     public Lesson() {
         lessons.add(new Lesson("Monday", "4-5pm", 1, "Dewan"));
-        lessons.add(new Lesson("Tuesday", "4-5pm", 1, "Tina"));
+        lessons.add(new Lesson("Tuesday", "5-6pm", 2, "Tina"));
+        lessons.add(new Lesson("Wednesday", "6-7pm", 3, "Joseph"));
+        lessons.add(new Lesson("Thursday", "5-6pm", 4, "Billy"));
+        lessons.add(new Lesson("Friday", "4-5pm", 5, "Job"));
+        lessons.add(new Lesson("Saturday", "3-4pm", 5, "Chris"));
     }
 
     public Lesson(String day, String time, int gradeLevel, String coach) {
